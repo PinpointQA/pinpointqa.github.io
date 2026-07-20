@@ -49,7 +49,7 @@
     <nav class="section-nav">
         <div class="container nav-inner">
             <a href="#overview" class="nav-link">Overview</a>
-            <a href="#human-assistance-demo" class="nav-link">Human Assistance Demo</a>
+            <a href="#human-localization-demo" class="nav-link">Human Localization Demo</a>
             <a href="#task-formulation" class="nav-link">Task Formulation</a>
             <a href="#pipeline" class="nav-link">Data Construction Pipeline</a>
             <a href="#dataset-statistics" class="nav-link">Dataset Statistics</a>
@@ -101,16 +101,17 @@
             </div>
         </section>
 
-        <section class="section" id="human-assistance-demo">
+        <section class="section" id="human-localization-demo">
             <div class="section-heading section-heading-center">
-                <h2>Human Assistance Evaluation Demo</h2>
+                <h2>Human Localization with FSD Guidance Demo</h2>
                 <span class="section-divider"></span>
             </div>
 
             <div class="section-text section-text-center">
                 <p>
-                    This lightweight demo mirrors the human assistance setting: users browse several frames, click the
-                    target location, and immediately see the elapsed time and response accuracy for each example.
+                    This lightweight demo mirrors the paper’s human localization study with FSD guidance: browse the
+                    available frames, select the frame where the target appears, click its estimated location, and
+                    optionally reveal an FSD description to measure both completion time and localization accuracy.
                 </p>
             </div>
 
@@ -121,7 +122,7 @@
                 </div>
 
                 <div class="demo-hint-panel hidden" id="demoHintPanel">
-                    <div class="demo-hint-label">Hint</div>
+                    <div class="demo-hint-label">FSD Description</div>
                     <div class="demo-hint-text" id="demoHintText">-</div>
                 </div>
 
@@ -155,7 +156,7 @@
                         <div class="demo-controls">
                             <button class="button ghost" id="demoStartBtn">Start</button>
                             <button class="button success" id="demoSaveBtn" disabled>Save Answer</button>
-                            <button class="button secondary" id="demoHintBtn" disabled>Show Hint</button>
+                            <button class="button secondary" id="demoHintBtn" disabled>Show FSD</button>
                             <button class="button primary" id="demoNextBtn">Next Example</button>
                         </div>
                     </div>
