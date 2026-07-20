@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563EB">
+
+    <title>PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos</title>
+    <meta name="description"
+        content="PinpointQA is a dataset and benchmark for small object-centric spatial understanding in indoor videos. It evaluates target perception, reference grounding, natural-language localization, and structured spatial representation.">
+    <meta name="keywords"
+        content="PinpointQA, spatial understanding, indoor videos, multimodal models, benchmark, dataset, small object-centric spatial understanding">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PinpointQA: Small Object-Centric Spatial Understanding Benchmark">
+    <meta property="og:description"
+        content="A dataset and benchmark for small object-centric spatial understanding in indoor videos with four progressive tasks.">
+    <meta property="og:image" content="assets/Overview.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PinpointQA: Small Object-Centric Spatial Understanding Benchmark">
+    <meta name="twitter:description"
+        content="A dataset and benchmark for small object-centric spatial understanding in indoor videos.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "PinpointQA",
+        "description": "A dataset and benchmark for small object-centric spatial understanding in indoor videos",
+        "author": [
+            {"@type": "Person", "name": "Zhiyu Zhou"},
+            {"@type": "Person", "name": "Peilin Liu"}
+        ],
+        "license": "https://creativecommons.org/licenses/by/4.0/"
+    }
+    </script>
+</head>
+
+<body>
+    <nav class="section-nav">
+        <div class="container nav-inner">
+            <a href="#overview" class="nav-link">Overview</a>
+            <a href="#human-assistance-demo" class="nav-link">Human Assistance Demo</a>
+            <a href="#task-formulation" class="nav-link">Task Formulation</a>
+            <a href="#pipeline" class="nav-link">Data Construction Pipeline</a>
+            <a href="#dataset-statistics" class="nav-link">Dataset Statistics</a>
+            <a href="#benchmark" class="nav-link">Benchmark Performance</a>
+            <a href="#citation" class="nav-link">Citation</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-inner">
+            <h1 class="paper-title">
+                PinpointQA: A Dataset and Benchmark for Small Object-Centric
+                Spatial Understanding in Indoor Videos
+            </h1>
+
+            <div class="authors">
+                <span class="author">Zhiyu Zhou<sup>1</sup></span>
+                <span class="author">Peilin Liu<sup>1</sup></span>
+                <span class="author">Ruoxuan Zhang<sup>1</sup></span>
+                <span class="author">Luyang Zhang<sup>1</sup></span>
+                <span class="author">Cheng Zhang<sup>1</sup></span>
+                <span class="author">Hongxia Xie<sup>1</sup></span>
+                <span class="author">Wen-Huang Cheng<sup>2</sup></span>
+            </div>
+
+            <div class="affiliations">
+                <span class="affiliation"><sup>1</sup> Jilin University</span>
+                <span class="author-sep">|</span>
+                <span class="affiliation"><sup>2</sup> National Taiwan University</span>
+            </div>
+
+            <div class="action-buttons">
+                <a href="https://arxiv.org/abs/2604.08991v1" class="btn" target="_blank" rel="noopener noreferrer"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
+                <a href="https://github.com/rainchowz/PinpointQA" class="btn" target="_blank"><ion-icon name="logo-github"></ion-icon> Code</a>
+                <a href="https://huggingface.co/datasets/RainChow/PinpointQA" class="btn" target="_blank"><ion-icon name="server-outline"></ion-icon> Dataset</a>
+                <a href="assets/appendix.pdf" class="btn" target="_blank" rel="noopener noreferrer"><ion-icon name="book-outline"></ion-icon> Appendix</a>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="container page-content">
+        <section class="section" id="overview">
+            <div class="section-heading section-heading-center">
+                <h2>Overview</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="figure-card">
+                <img src="assets/Overview.png" alt="PinpointQA overview" class="main-figure">
+            </div>
+
+            <p class="caption">
+                <strong>Figure 1.</strong> PinpointQA decomposes the benchmark into four progressively harder tasks for
+                small object-centric spatial understanding.
+            </p>
+
+            <div class="section-text">
+                <p>
+                    PinpointQA is a dataset and benchmark for evaluating whether multimodal models can determine whether a specified small object appears in an indoor scene, localize it through nearby references, describe its final location precisely in natural language, and express the same grounded information in a form useful to both humans and downstream systems.
+                </p>
+            </div>
+        </section>
+
+        <section class="section" id="human-assistance-demo">
+            <div class="section-heading section-heading-center">
+                <h2>Human Assistance Evaluation Demo</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="section-text section-text-center">
+                <p>
+                    This lightweight demo mirrors the human assistance setting: users browse several frames, click the
+                    target location, and immediately see the elapsed time and response accuracy for each example.
+                </p>
+            </div>
+
+            <div class="human-demo-shell">
+                <div class="demo-question-card">
+                    <div class="demo-question-label">Question</div>
+                    <div class="demo-question-text" id="demoQuestionText">Please click Start to begin the demo.</div>
+                </div>
+
+                <div class="demo-hint-panel hidden" id="demoHintPanel">
+                    <div class="demo-hint-label">Hint</div>
+                    <div class="demo-hint-text" id="demoHintText">-</div>
+                </div>
+
+                <div class="demo-stage-layout">
+                    <aside class="demo-side-card" id="demoPrevCard">
+                        <div class="demo-preview-chip">← Previous</div>
+                        <div class="demo-preview-wrap">
+                            <img id="demoPrevImage" alt="Previous preview">
+                        </div>
+                        <div class="demo-preview-name" id="demoPrevName">-</div>
+                    </aside>
+
+                    <div class="demo-main-card">
+                        <div class="demo-stage-header">
+                            <div class="demo-stage-counter" id="demoStageCounter">Image 1 / 4</div>
+                            <div class="demo-stage-hint" id="demoStageHint">Click Start to begin this example.</div>
+                        </div>
+
+                        <div class="demo-main-wrap" id="demoMainWrap">
+                            <div class="demo-main-lock" id="demoMainLock">
+                                <div class="demo-lock-title">Start the demo to enable interaction</div>
+                                <div class="demo-lock-subtitle">You can then switch frames, click the target location, and save your answer.</div>
+                            </div>
+                            <img id="demoMainImage" alt="Demo main image">
+                            <div class="demo-click-marker hidden" id="demoClickMarker"></div>
+                            <div class="demo-gt-marker hidden" id="demoGtMarker"></div>
+                        </div>
+
+                        <div class="demo-main-name" id="demoMainName">-</div>
+
+                        <div class="demo-controls">
+                            <button class="button ghost" id="demoStartBtn">Start</button>
+                            <button class="button success" id="demoSaveBtn" disabled>Save Answer</button>
+                            <button class="button secondary" id="demoHintBtn" disabled>Show Hint</button>
+                            <button class="button primary" id="demoNextBtn">Next Example</button>
+                        </div>
+                    </div>
+
+                    <aside class="demo-side-card" id="demoNextCard">
+                        <div class="demo-preview-chip">Next →</div>
+                        <div class="demo-preview-wrap">
+                            <img id="demoNextImage" alt="Next preview">
+                        </div>
+                        <div class="demo-preview-name" id="demoNextName">-</div>
+                    </aside>
+                </div>
+
+                <div class="demo-results-panel">
+                    <div class="demo-result-item">
+                        <span class="demo-result-label">Current Example</span>
+                        <span class="demo-result-value" id="demoExampleLabel">Sample 1 / 3</span>
+                    </div>
+                    <div class="demo-result-item">
+                        <span class="demo-result-label">Elapsed Time</span>
+                        <span class="demo-result-value" id="demoElapsed">-</span>
+                    </div>
+                    <div class="demo-result-item">
+                        <span class="demo-result-label">Accuracy</span>
+                        <span class="demo-result-value" id="demoAccuracy">-</span>
+                    </div>
+                    <div class="demo-result-item demo-result-item-wide">
+                        <span class="demo-result-label">Session Summary</span>
+                        <span class="demo-result-value" id="demoSummary">Start the demo and complete an example to see the running summary.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-tight" id="stats-strip">
+            <div class="section-heading section-heading-center">
+                <h2>PinpointQA at a Glance</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="stats-panel">
+                <div class="stats-strip">
+                    <div class="stat-card">
+                        <span class="stat-value">10,094</span>
+                        <span class="stat-label">QA Samples</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">4</span>
+                        <span class="stat-label">Tasks</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">2</span>
+                        <span class="stat-label">Data Sources</span>
+                    </div>
+                    <div class="stat-card stat-card-wide">
+                        <span class="stat-value stat-value-small">6,121 / 1,954 / 2,019</span>
+                        <span class="stat-label">Train / Val / Test</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">Indoor</span>
+                        <span class="stat-label">Scene Setting</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="task-formulation">
+            <div class="section-heading section-heading-center">
+                <h2>PinpointQA Task Formulation</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="section-text">
+                <p>
+                    The benchmark is organized as a progressive capability chain. It starts from target presence
+                    verification, moves to nearest reference identification and fine-grained spatial description, and ends with
+                    structured spatial prediction.
+                </p>
+            </div>
+
+            <div class="tasks-grid">
+                <div class="task-card">
+                    <div class="task-icon"><ion-icon name="eye-outline"></ion-icon></div>
+                    <h3>Target Presence Verification</h3>
+                    <p>Determine whether the target object appears in the video.</p>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><ion-icon name="pin-outline"></ion-icon></div>
+                    <h3>Nearest Reference Identification</h3>
+                    <p>Identify the reference object closest to the target.</p>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></div>
+                    <h3>Fine-Grained Spatial Description</h3>
+                    <p>Describe the target location with clear spatial language.</p>
+                </div>
+                <div class="task-card">
+                    <div class="task-icon"><ion-icon name="code-slash-outline"></ion-icon></div>
+                    <h3>Structured Spatial Prediction</h3>
+                    <p>Organize the target location into directly usable structured fields.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="pipeline">
+            <div class="section-heading section-heading-center">
+                <h2>Data Construction Pipeline</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="figure-card">
+                <img src="assets/Datapineline.png" alt="Data construction pipeline" class="pipeline-figure">
+            </div>
+
+            <p class="caption">
+                <strong>Figure 2.</strong> The pipeline connects scene curation, scene curation, and task-specific QA generation.
+            </p>
+
+            <div class="section-text">
+                <p>
+                    PinpointQA is built from ScanNet++ and ScanNet200, combining richly annotated indoor scenes with
+                    small object-centric spatial reasoning. The pipeline identifies candidate small objects, constructs intermediate spatial representations between the target and nearby references, and then generates aligned QA pairs for
+                    TPV, NRI, FSD, and SSP under a unified formulation.
+                </p>
+            </div>
+        </section>
+
+        <section class="section" id="dataset-statistics">
+            <div class="section-heading section-heading-center">
+                <h2>Dataset Statistics</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="figure-card">
+                <img src="assets/data.png" alt="Dataset statistics" class="stats-figure">
+            </div>
+
+            <p class="caption">
+                <strong>Figure 3.</strong> Distribution overview of tasks, data-source composition, target categories,
+                and video duration.
+            </p>
+
+            <div class="section-text">
+                <p>
+                    The benchmark maintains a relatively balanced task distribution across TPV, NRI, FSD, and SSP. It
+                    covers a wide range of daily small objects, combines samples from both ScanNet++ and ScanNet200, and
+                    spans both short-to-medium and longer indoor videos, providing a diverse testbed for
+                    small object-centric spatial understanding.
+                </p>
+            </div>
+        </section>
+
+        <section class="section" id="benchmark">
+            <div class="section-heading section-heading-center">
+                <h2>Benchmark Performance</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="section-text section-text-center">
+                <p>
+                    The benchmark reveals a clear performance gap between early-stage target perception and later-stage
+                    structured spatial prediction. Fine-tuned open-source models achieve the strongest overall results,
+                    while almost all models show a steady decline from TPV to SSP, indicating that executable spatial
+                    grounding remains the most challenging part of the task chain.
+                </p>
+            </div>
+
+            <div class="leaderboard-meta">
+                <span class="leaderboard-badge">Leaderboard</span>
+                <span id="sortStatus">Sorted by Avg Micro (high to low)</span>
+            </div>
+
+            <div class="table-card">
+                <div class="table-scroll">
+                    <table class="results-table" id="leaderboardTable">
+                        <thead>
+                            <tr>
+                                <th class="rank-col">Rank</th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="model" data-sort-type="text">
+                                        Model
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="tpvMicro" data-sort-type="number">
+                                        TPV Micro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="tpvMacro" data-sort-type="number">
+                                        TPV Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="nriMicro" data-sort-type="number">
+                                        NRI Micro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="nriMacro" data-sort-type="number">
+                                        NRI Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="fsdMicro" data-sort-type="number">
+                                        FSD Micro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="fsdMacro" data-sort-type="number">
+                                        FSD Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="sspMicro" data-sort-type="number">
+                                        SSP Micro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="sspMacro" data-sort-type="number">
+                                        SSP Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn active" data-sort-key="avgMicro" data-sort-type="number" data-default-order="desc">
+                                        Avg Micro
+                                        <ion-icon name="arrow-down-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="avgMacro" data-sort-type="number">
+                                        Avg Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardBody">
+                            <tr data-model="Qwen3-VL-8B-SFT" data-tpv-micro="0.83" data-tpv-macro="0.84" data-nri-micro="0.44" data-nri-macro="0.45" data-fsd-micro="0.36" data-fsd-macro="0.37" data-ssp-micro="0.29" data-ssp-macro="0.29" data-avg-micro="0.48" data-avg-macro="0.49">
+                                <td class="rank-cell"></td>
+                                <td>Qwen3-VL-8B-SFT <span class="model-tag">Fine-tuned</span></td>
+                                <td>0.83</td>
+                                <td>0.84</td>
+                                <td>0.44</td>
+                                <td>0.45</td>
+                                <td>0.36</td>
+                                <td>0.37</td>
+                                <td>0.29</td>
+                                <td>0.29</td>
+                                <td>0.48</td>
+                                <td>0.49</td>
+                            </tr>
+                            <tr data-model="InternVL3.5-8B-SFT" data-tpv-micro="0.82" data-tpv-macro="0.82" data-nri-micro="0.41" data-nri-macro="0.39" data-fsd-micro="0.34" data-fsd-macro="0.36" data-ssp-micro="0.23" data-ssp-macro="0.24" data-avg-micro="0.45" data-avg-macro="0.45">
+                                <td class="rank-cell"></td>
+                                <td>InternVL3.5-8B-SFT <span class="model-tag">Fine-tuned</span></td>
+                                <td>0.82</td>
+                                <td>0.82</td>
+                                <td>0.41</td>
+                                <td>0.39</td>
+                                <td>0.34</td>
+                                <td>0.36</td>
+                                <td>0.23</td>
+                                <td>0.24</td>
+                                <td>0.45</td>
+                                <td>0.45</td>
+                            </tr>
+                            <tr data-model="Kimi K2.5" data-tpv-micro="0.80" data-tpv-macro="0.84" data-nri-micro="0.42" data-nri-macro="0.44" data-fsd-micro="0.32" data-fsd-macro="0.33" data-ssp-micro="0.15" data-ssp-macro="0.15" data-avg-micro="0.42" data-avg-macro="0.44">
+                                <td class="rank-cell"></td>
+                                <td>Kimi K2.5 <span class="model-tag">Proprietary</span></td>
+                                <td>0.80</td>
+                                <td>0.84</td>
+                                <td>0.42</td>
+                                <td>0.44</td>
+                                <td>0.32</td>
+                                <td>0.33</td>
+                                <td>0.15</td>
+                                <td>0.15</td>
+                                <td>0.42</td>
+                                <td>0.44</td>
+                            </tr>
+                            <tr data-model="Qwen3-VL-8B-Instruct" data-tpv-micro="0.78" data-tpv-macro="0.80" data-nri-micro="0.37" data-nri-macro="0.37" data-fsd-micro="0.28" data-fsd-macro="0.29" data-ssp-micro="0.12" data-ssp-macro="0.12" data-avg-micro="0.39" data-avg-macro="0.40">
+                                <td class="rank-cell"></td>
+                                <td>Qwen3-VL-8B-Instruct <span class="model-tag">Open-source</span></td>
+                                <td>0.78</td>
+                                <td>0.80</td>
+                                <td>0.37</td>
+                                <td>0.37</td>
+                                <td>0.28</td>
+                                <td>0.29</td>
+                                <td>0.12</td>
+                                <td>0.12</td>
+                                <td>0.39</td>
+                                <td>0.40</td>
+                            </tr>
+                            <tr data-model="GPT-5.4" data-tpv-micro="0.65" data-tpv-macro="0.69" data-nri-micro="0.39" data-nri-macro="0.42" data-fsd-micro="0.31" data-fsd-macro="0.32" data-ssp-micro="0.15" data-ssp-macro="0.16" data-avg-micro="0.38" data-avg-macro="0.40">
+                                <td class="rank-cell"></td>
+                                <td>GPT-5.4 <span class="model-tag">Proprietary</span></td>
+                                <td>0.65</td>
+                                <td>0.69</td>
+                                <td>0.39</td>
+                                <td>0.42</td>
+                                <td>0.31</td>
+                                <td>0.32</td>
+                                <td>0.15</td>
+                                <td>0.16</td>
+                                <td>0.38</td>
+                                <td>0.40</td>
+                            </tr>
+                            <tr data-model="LLaVA-OneVision-1.5-8B" data-tpv-micro="0.76" data-tpv-macro="0.79" data-nri-micro="0.30" data-nri-macro="0.30" data-fsd-micro="0.26" data-fsd-macro="0.27" data-ssp-micro="0.07" data-ssp-macro="0.06" data-avg-micro="0.35" data-avg-macro="0.36">
+                                <td class="rank-cell"></td>
+                                <td>LLaVA-OneVision-1.5-8B <span class="model-tag">Open-source</span></td>
+                                <td>0.76</td>
+                                <td>0.79</td>
+                                <td>0.30</td>
+                                <td>0.30</td>
+                                <td>0.26</td>
+                                <td>0.27</td>
+                                <td>0.07</td>
+                                <td>0.06</td>
+                                <td>0.35</td>
+                                <td>0.36</td>
+                            </tr>
+                            <tr data-model="Cambrian-S-7B" data-tpv-micro="0.73" data-tpv-macro="0.78" data-nri-micro="0.33" data-nri-macro="0.35" data-fsd-micro="0.24" data-fsd-macro="0.25" data-ssp-micro="0.05" data-ssp-macro="0.06" data-avg-micro="0.34" data-avg-macro="0.36">
+                                <td class="rank-cell"></td>
+                                <td>Cambrian-S-7B <span class="model-tag">Open-source</span></td>
+                                <td>0.73</td>
+                                <td>0.78</td>
+                                <td>0.33</td>
+                                <td>0.35</td>
+                                <td>0.24</td>
+                                <td>0.25</td>
+                                <td>0.05</td>
+                                <td>0.06</td>
+                                <td>0.34</td>
+                                <td>0.36</td>
+                            </tr>
+                            <tr data-model="InternVL3.5-8B-Instruct" data-tpv-micro="0.65" data-tpv-macro="0.70" data-nri-micro="0.36" data-nri-macro="0.38" data-fsd-micro="0.25" data-fsd-macro="0.26" data-ssp-micro="0.09" data-ssp-macro="0.10" data-avg-micro="0.34" data-avg-macro="0.36">
+                                <td class="rank-cell"></td>
+                                <td>InternVL3.5-8B-Instruct <span class="model-tag">Open-source</span></td>
+                                <td>0.65</td>
+                                <td>0.70</td>
+                                <td>0.36</td>
+                                <td>0.38</td>
+                                <td>0.25</td>
+                                <td>0.26</td>
+                                <td>0.09</td>
+                                <td>0.10</td>
+                                <td>0.34</td>
+                                <td>0.36</td>
+                            </tr>
+                            <tr data-model="SenseNova-SI-1.3" data-tpv-micro="0.64" data-tpv-macro="0.66" data-nri-micro="0.36" data-nri-macro="0.40" data-fsd-micro="0.15" data-fsd-macro="0.16" data-ssp-micro="0.12" data-ssp-macro="0.13" data-avg-micro="0.32" data-avg-macro="0.34">
+                                <td class="rank-cell"></td>
+                                <td>SenseNova-SI-1.3 <span class="model-tag">Open-source</span></td>
+                                <td>0.64</td>
+                                <td>0.66</td>
+                                <td>0.36</td>
+                                <td>0.40</td>
+                                <td>0.15</td>
+                                <td>0.16</td>
+                                <td>0.12</td>
+                                <td>0.13</td>
+                                <td>0.32</td>
+                                <td>0.34</td>
+                            </tr>
+                            <tr data-model="Spatial-MLLM-v1.1" data-tpv-micro="0.52" data-tpv-macro="0.51" data-nri-micro="0.30" data-nri-macro="0.30" data-fsd-micro="0.21" data-fsd-macro="0.20" data-ssp-micro="0.00" data-ssp-macro="0.00" data-avg-micro="0.26" data-avg-macro="0.25">
+                                <td class="rank-cell"></td>
+                                <td>Spatial-MLLM-v1.1 <span class="model-tag">Open-source</span></td>
+                                <td>0.52</td>
+                                <td>0.51</td>
+                                <td>0.30</td>
+                                <td>0.30</td>
+                                <td>0.21</td>
+                                <td>0.20</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.26</td>
+                                <td>0.25</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-small" id="citation">
+            <div class="section-heading section-heading-center">
+                <h2>Citation</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="bibtex-box">
+                <button class="copy-btn" id="copyBibBtn" title="Copy to clipboard">
+                    <ion-icon name="copy-outline"></ion-icon>
+                </button>
+                <pre><code id="bibtex-code">
+@article{zhou2026pinpointqa,
+author  = {Zhiyu Zhou and Peilin Liu and Ruoxuan Zhang and Luyang Zhang and Cheng Zhang and Hongxia Xie and Wen-Huang Cheng},
+title   = {PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos},
+journal = {arXiv preprint arXiv:2604.08991},
+year    = {2026}
+}</code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Zhiyu Zhou et al. Project page for <strong>PinpointQA</strong>.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
