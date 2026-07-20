@@ -4,9 +4,10 @@
   <a href="https://pinpointqa.github.io/">
     <img src="https://img.shields.io/badge/Project%20Page-Visit%20Website-4f46e5?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project Page"/>
   </a>
-  <a href="https://github.com/PinpointQA/pinpointqa.github.io">
-    <img src="https://img.shields.io/badge/Code-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code Repository"/>
-  </a>
+</p>
+
+<p align="center">
+  <strong><font color="#d32f2f">The dataset will be released after the paper is accepted.</font></strong>
 </p>
 
 <p align="center">
